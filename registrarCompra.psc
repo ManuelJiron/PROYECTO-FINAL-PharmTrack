@@ -1,18 +1,16 @@
 Proceso registrarCompra
-	Definir cantidad, i Como Entero;
 	Definir nombreProducto, marcaProducto, clasificacionProducto Como Cadena;
-	Definir precioProducto Como Real;
-	Escribir "Ingrese la cantidad de productos a registrar: ";
-	Leer cantidad;
-	Para i<-1 Hasta cantidad Hacer
-		Escribir "Ingrese el nombre del producto ", i, ": ";
-		Leer nombreProducto;
-		Escribir "Ingrese la marca del producto ", i, ": ";
-		Leer marcaProducto;
-		Escribir "Ingrese la clasificación del producto ", i, ": ";
-		Leer clasificacionProducto;
-		Escribir "Ingrese el precio del producto ", i, ": ";
-		Leer precioProducto;
-		Escribir "Producto ", i, " registrado con éxito.";
-	FinPara
+	Definir cantidadProducto Como Entero;
+	Definir precioProducto, total Como Real;
+	Escribir 'Ingrese el nombre del producto: ';
+	Leer nombreProducto;
+	Escribir 'Ingrese la marca del producto: ';
+	Leer marcaProducto;
+	Escribir 'Ingrese la clasificación del producto: ';
+	Leer clasificacionProducto;
+	Escribir 'Ingrese la cantidad: ';
+	Leer cantidadProducto;
+	Escribir 'Ingrese el precio del producto: ';
+	Leer precioProducto;
+	total <- cantidadProducto*precioProducto;
 FinProceso
