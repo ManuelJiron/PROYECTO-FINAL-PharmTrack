@@ -8,79 +8,83 @@ int numProductos = 0;               // Número de productos
 void ingresarDatosProductos()
 {
     system("cls");     // limpiamos la pantalla
-    int num;           // variable para almacenar la cantidad de productos a registrar
     PRODUCTO producto; // variable de tipo PRODUCTO para almacenar los datos de un producto
 
-    cout << "\nIngrese la cantidad de productos a registrar: ";
-    cin >> num;   // Lee la cantidad de productos a registrar
+    cout << "\n--------------------------";
+    cout << "\nProducto ";
+    cout << "\n--------------------------";
+    cout << "\nIngrese el ID del producto: ";
+    cin >> producto.id;
+
+    bool idRepetido = false; // Variable para verificar si el ID del producto ya existe
+    for (int i = 0; i < numProductos; i++) // Recorrer el inventario
+    {
+        if (inventario[i].id == producto.id) // Verificar si el ID del producto ya existe
+        {
+            idRepetido = true; // Cambiar el valor de la variable a verdadero
+            break;            // Salir del ciclo
+        }
+    }
+
+    if (idRepetido) // Verificar si el ID del producto ya existe, es decir, si la variable es verdadera
+    {
+        cout << "El ID del producto ya existe." << endl; // Mostrar mensaje de error
+        return; // Salir de la función
+    }
+
+    cout << "\nIngrese el nombre del producto: ";
+    scanf(" %[^\n]", producto.nombre); // Lee el nombre del producto
+
+    cout << "Ingrese la marca del producto: ";
+    scanf(" %[^\n]", producto.marca); // Lee la marca del producto
+
+    cout << "Ingrese la clasificacion del producto: ";
+    scanf(" %[^\n]", producto.clasificacion); // Lee la clasificación del producto
+
+    cout << "Ingrese el nicho de mercado del producto: ";
+    scanf(" %[^\n]", producto.nichoMercado); // Lee el nicho de mercado del producto
+
+    cout << "Ingrese el precio del producto: ";
+    cin >> producto.precio; // Lee el precio del producto
+
+    cout << "Ingrese la cantidad del producto: ";
+    cin >> producto.cantidad; // Lee la cantidad del producto
+
     cin.ignore(); // Limpiar el buffer de entrada
 
-    for (int i = 0; i < num; i++)
-    {
-        cout << "\n--------------------------";
-        cout << "\nProducto " << i + 1;
-        cout << "\n--------------------------";
-        cout << "\nIngrese el ID del producto: ";
-        cin >> producto.id;
-
-        cout << "\nIngrese el nombre del producto: ";
-        scanf(" %[^\n]", producto.nombre); // Lee el nombre del producto
-
-        cout << "Ingrese la marca del producto: ";
-        scanf(" %[^\n]", producto.marca); // Lee la marca del producto
-
-        cout << "Ingrese la clasificacion del producto: ";
-        scanf(" %[^\n]", producto.clasificacion); // Lee la clasificación del producto
-
-        cout << "Ingrese el nicho de mercado del producto: ";
-        scanf(" %[^\n]", producto.nichoMercado); // Lee el nicho de mercado del producto
-
-        cout << "Ingrese el precio del producto: ";
-        cin >> producto.precio; // Lee el precio del producto
-
-        cout << "Ingrese la cantidad del producto: ";
-        cin >> producto.cantidad; // Lee la cantidad del producto
-
-        cin.ignore(); // Limpiar el buffer de entrada
-
-        inventario[numProductos++] = producto; // Agregar el producto al inventario
-        cout << "\nProducto registrado con exito." << endl;
-    }
+    inventario[numProductos++] = producto; // Agregar el producto al inventario
+    cout << "\nProducto registrado con exito." << endl; // Mostrar mensaje de éxito
 }
 
-int cargarInventario()
-{
+int cargarInventario() {
     ifstream archivo("inventario.txt"); // Abrir el archivo para lectura
-    if (archivo.fail())                 // Verificar si no se pudo abrir el archivo
-    {
+    if (archivo.fail()) { // Verificar si no se pudo abrir el archivo
         return 0;
     }
-    numProductos = 0;                              // Inicializar el número de productos
-    while (archivo >> inventario[numProductos].id) // Leer el ID del producto
-    {
-        archivo.getline(inventario[numProductos].nombre, MAX_NAME_LENGTH);        // Leer el nombre del producto
-        archivo.getline(inventario[numProductos].marca, MAX_NAME_LENGTH);         // Leer la marca del producto
+    numProductos = 0; // Inicializar el número de productos
+    while (archivo >> inventario[numProductos].id) { // Leer el ID del producto
+        archivo.ignore(); // Limpiar el buffer de entrada
+        archivo.getline(inventario[numProductos].nombre, MAX_NAME_LENGTH); // Leer el nombre del producto
+        archivo.getline(inventario[numProductos].marca, MAX_NAME_LENGTH); // Leer la marca del producto
         archivo.getline(inventario[numProductos].clasificacion, MAX_NAME_LENGTH); // Leer la clasificación del producto
-        archivo.getline(inventario[numProductos].nichoMercado, MAX_NAME_LENGTH);  // Leer el nicho de mercado del producto
-        archivo >> inventario[numProductos].precio;                               // Leer el precio del producto
-        archivo >> inventario[numProductos].cantidad;                             // Leer la cantidad del producto
+        archivo.getline(inventario[numProductos].nichoMercado, MAX_NAME_LENGTH); // Leer el nicho de mercado del producto
+        archivo >> inventario[numProductos].precio; // Leer el precio del producto
+        archivo >> inventario[numProductos].cantidad; // Leer la cantidad del producto
+        archivo.ignore(); // Ignorar el salto de línea
         numProductos++; // Incrementar el número de productos
     }
     archivo.close(); // Cerrar el archivo
     return 1; // Retornar 1 si se cargó el inventario con éxito
 }
 
-void guardarInventario()
-{
+void guardarInventario() {
     ofstream archivo;
     archivo.open("inventario.txt"); // Abrir el archivo para escritura
-    if (archivo.fail()) // Verificar si no se pudo abrir el archivo
-    {
+    if (archivo.fail()) { // Verificar si no se pudo abrir el archivo
         cout << "No se puede abrir el archivo." << endl;
-        exit(1);
+        exit(1); // Salir del programa
     }
-    for (int i = 0; i < numProductos; i++) // Escribir los datos de los productos en el archivo
-    {
+    for (int i = 0; i < numProductos; i++) { // Escribir los datos de los productos en el archivo
         archivo << inventario[i].id << endl; // Escribir el ID del producto
         archivo << inventario[i].nombre << endl; // Escribir el nombre del producto
         archivo << inventario[i].marca << endl; // Escribir la marca del producto
@@ -113,13 +117,13 @@ void mostrarInventario()
     {
         cout << "\nDetalles del producto " << opc << endl;
         cout << "-------------------------" << endl;
-        cout << "ID: " << inventario[opc - 1].id << endl; // Mostrar el ID del producto
-        cout << "Nombre: " << inventario[opc - 1].nombre << endl; // Mostrar el nombre del producto
-        cout << "Marca: " << inventario[opc - 1].marca << endl; // Mostrar la marca del producto
-        cout << "Clasificacion: " << inventario[opc - 1].clasificacion << endl; // Mostrar la clasificación del producto
+        cout << "ID: " << inventario[opc - 1].id << endl;                         // Mostrar el ID del producto
+        cout << "Nombre: " << inventario[opc - 1].nombre << endl;                 // Mostrar el nombre del producto
+        cout << "Marca: " << inventario[opc - 1].marca << endl;                   // Mostrar la marca del producto
+        cout << "Clasificacion: " << inventario[opc - 1].clasificacion << endl;   // Mostrar la clasificación del producto
         cout << "Nicho de Mercado: " << inventario[opc - 1].nichoMercado << endl; // Mostrar el nicho de mercado del producto
-        cout << "Precio: " << inventario[opc - 1].precio << endl; // Mostrar el precio del producto
-        cout << "Cantidad: " << inventario[opc - 1].cantidad << endl; // Mostrar la cantidad del producto
+        cout << "Precio: " << inventario[opc - 1].precio << endl;                 // Mostrar el precio del producto
+        cout << "Cantidad: " << inventario[opc - 1].cantidad << endl;             // Mostrar la cantidad del producto
     }
 }
 
@@ -161,7 +165,7 @@ void editarProducto()
 
             cout << "Producto editado con exito." << endl; // Mostrar mensaje de éxito
             guardarInventario();                           // Guardar los cambios en el archivo
-            return; 
+            return;
         }
     }
     cout << "Producto no encontrado." << endl; // Mostrar mensaje si el producto no se encuentra
@@ -211,7 +215,7 @@ void menuRegistro()
         {
         case 1:
             ingresarDatosProductos(); // Llamar a la función para ingresar los datos de los productos
-            guardarInventario(); // Guardar los cambios en el archivo
+            guardarInventario();      // Guardar los cambios en el archivo
             break;
         case 2:
             mostrarInventario(); // Llamar a la función para mostrar el inventario
