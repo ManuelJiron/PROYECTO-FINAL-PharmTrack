@@ -47,8 +47,18 @@ void ingresarDatosProductos()
     cout << "Ingrese el precio del producto: ";
     cin >> producto.precio; // Lee el precio del producto
 
+    while (producto.precio < 0) {
+        cout << "Por favor, ingrese un valor positivo: ";
+        cin >> producto.precio;
+    }
+
     cout << "Ingrese la cantidad del producto: ";
     cin >> producto.cantidad; // Lee la cantidad del producto
+
+    while (producto.cantidad < 0) {
+        cout << "Por favor, ingrese un valor positivo: ";
+        cin >> producto.cantidad;
+    }
 
     cin.ignore(); // Limpiar el buffer de entrada
 
@@ -159,9 +169,19 @@ void editarProducto()
             cout << "Nuevo precio: ";
             cin >> inventario[i].precio; // Leer el nuevo precio del producto
 
+            while (inventario[i].precio < 0) {
+                cout << "Por favor, ingrese un valor positivo: ";
+                cin >> inventario[i].precio;
+            }
+
             cout << "Cantidad actual: " << inventario[i].cantidad << endl; // Mostrar la cantidad actual del producto
             cout << "Nueva cantidad: ";
             cin >> inventario[i].cantidad; // Leer la nueva cantidad del producto
+
+            while (inventario[i].cantidad < 0) {
+                cout << "Por favor, ingrese un valor positivo: ";
+                cin >> inventario[i].cantidad;
+            }
 
             cout << "Producto editado con exito." << endl; // Mostrar mensaje de éxito
             guardarInventario();                           // Guardar los cambios en el archivo
