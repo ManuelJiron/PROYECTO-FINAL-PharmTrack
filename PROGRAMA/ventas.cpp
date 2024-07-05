@@ -25,6 +25,11 @@ void registrarVenta()
             cout << "Ingrese la cantidad vendida: ";             // Solicitar la cantidad vendida
             cin >> venta.cantidadVendida;
 
+            while (venta.cantidadVendida < 0) {
+                cout << "Por favor, ingrese un valor positivo: ";
+                cin >> venta.cantidadVendida;
+                }
+
             if (inventario[i].cantidad < venta.cantidadVendida) // Verificar si hay suficiente stock
             {
                 cout << "No hay suficiente stock." << endl;
@@ -49,8 +54,8 @@ void registrarVenta()
 void guardarVentas()
 {
     ofstream archivo;
-    archivo.open("ventas.txt", ios::app);
-    if (archivo.fail())
+    archivo.open("ventas.txt"); // Abrir el archivo para escritura
+    if (archivo.fail()) // Verificar si se pudo abrir el archivo
     {
         cout << "No se puede abrir el archivo." << endl;
         exit(1);
